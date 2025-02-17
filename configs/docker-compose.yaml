@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  # Node.js Frontend
+  app:
+    image: node:16-alpine
+    container_name: fruitbox_app
+    build:
+      context: /home/philippe-gabathuler/Goldfruit/Konfiguration/Domains_Hostings/fruitbox
+      dockerfile: app/dockerfile_folder/Dockerfile
+    volumes:
+      - /home/philippe-gabathuler/Goldfruit/Konfiguration/Domains_Hostings/fruitbox/app:/usr/src/app:rw
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - db
+    networks:
+      - fruitbox_network
+
+  # Spring Boot Backend
+  springboot_api:
+    container_name: fruitbox_springboot_api
+    build:
+      context: /home/philippe-gabathuler/Goldfruit/Konfiguration/Domains_Hostings/fruitbox/backend/springboot-api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - fruitbox_network
+
+  # NGINX (Reverse Proxy)
+  nginx:
+    image: nginx:alpine
+    container_name: fruitbox_nginx
+    networks:
+      - fruitbox_network
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+      - springboot_api
+
+  # MySQL Datenbank
+  db:
+    image: mysql:5.7
+    container_name: fruitbox_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+    networks:
+      - fruitbox_network
+
+networks:
+  fruitbox_network:
+    driver: bridge

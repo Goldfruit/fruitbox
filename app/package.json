@@ -1,0 +1,21 @@
+{
+    "name": "fruitbox",
+    "version": "1.0.0",
+    "description": "Node.js Express Application for FruitBox",
+    "main": "index.js",
+    "type": "commonjs",
+    "scripts": {
+      "start": "node index.js",
+      "dev": "nodemon index.js",
+      "test": "echo \"No test specified\" && exit 0"
+    },
+    "author": "Philippe",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.21.2"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.22"
+    }
+  }
+  
