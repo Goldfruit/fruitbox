@@ -1,0 +1,14 @@
+@RestController
+@RequestMapping("/api/fruit")
+public class FruitController {
+    @Autowired
+    private FruitRepository fruitRepo;
+
+    @GetMapping("/create")
+    public String createFruit() {
+        Fruit f = new Fruit();
+        f.setName("Banana");
+        fruitRepo.save(f);
+        return "Banana created!";
+    }
+}

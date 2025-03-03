@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  fruitbox_db:
+    image: mysql:5.7
+    container_name: fruitbox_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: fruitbox_db
+    ports:
+      - "3306:3306"
+    networks:
+      - fruitbox_network
+
+  springboot_api:
+    build: ./springboot-api
+    container_name: fruitbox_springboot_api
+    restart: always
+    depends_on:
+      - fruitbox_db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://fruitbox_db:3306/fruitbox_db?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+    ports:
+      - "8080:8080"
+    networks:
+      - fruitbox_network
+
+networks:
+  fruitbox_network:
+    driver: bridge

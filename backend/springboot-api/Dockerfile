@@ -6,7 +6,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # 2. Run stage
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-jdk
 WORKDIR /app
 COPY --from=build /app/target/*.jar springboot-api.jar
 EXPOSE 8080
