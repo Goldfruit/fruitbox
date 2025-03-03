@@ -14,7 +14,7 @@ public class SpringbootApiApplication {
 }
 
 @RestController
-@RequestMapping("/api")  // <-- Das fügt den Prefix "/api" für alle Endpunkte hinzu
+@RequestMapping("/api")  // Fügt "/api" als Prefix für alle Endpunkte hinzu
 class HelloController {
     @GetMapping("/hello")
     public String hello() {
